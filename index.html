@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>História em Quadrinhos - Lei de Ohm</title>
+    <style>
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #000;
+            margin-bottom: 20px;
+    }
+
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .comic-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .comic-panel {
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .comic-panel img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+        .comic-text {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .game-container h1 {
+            margin-bottom: 20px;
+        }
+        .game-container p {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        input[type="number"] {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            font-size: 20px;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        .animation-container {
+            margin-top: 50px;
+            position: relative;
+            width: 600px;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 2px solid #000;
+            border-radius: 10px;
+            background-color: #fff;
+            overflow: hidden;
+        }
+        .resistor {
+            position: absolute;
+            top: 100px;
+            left: 250px;
+            width: 100px;
+            height: 30px;
+            background-color: #b5651d;
+            border: 3px solid #000;
+            text-align: center;
+            line-height: 30px;
+            color: #fff;
+            font-weight: bold;
+        }
+        .current {
+            position: absolute;
+            top: 140px;
+            left: -50px;
+            width: 50px;
+            height: 50px;
+            background-color: #3498db;
+            border-radius: 50%;
+            animation: moveCurrent 5s linear infinite;
+        }
+        @keyframes moveCurrent {
+            0% { left: -50px; }
+            100% { left: 550px; }
+        }
+        .voltage {
+            position: absolute;
+            top: 200px;
+            left: 0;
+            width: 100%;
+            font-size: 20px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>A Lei de Ohm</h1>
+    <div class="comic-container">
+        <div class="comic-panel">
+            <img src="/img/ohmimetro.png" alt="Introdução">
+            <div class="comic-text">
+                Olá! Eu sou o Ohmímetro. Hoje vou explicar a Lei de Ohm para você! <br/><br/> "As leis de Ohm permitem calcularmos importantes grandezas físicas, como a tensão, corrente e a resistência elétrica dos mais diversos elementos presentes em um circuito."
+            </div>
+        </div>
+        <div class="comic-panel">
+            <img src="/img/lei-de-ohm.png" alt="Lei de Ohm">
+            <div class="comic-text">
+                A Lei de Ohm diz que V = R * I, onde V é a tensão, R é a resistência, e I é a corrente.
+            </div>
+        </div>
+        <div class="comic-panel">
+            <img src="ohm_example.png" alt="Exemplo">
+            <div class="comic-text">
+                Se tivermos uma resistência de 2Ω e uma corrente de 3A, a tensão será 6V!
+            </div>
+        </div>
+        <!-- Adicione mais painéis conforme necessário -->
+        <div class="game-container">
+            <h1>Jogo da Lei de Ohm</h1>
+            <p>Calcule a tensão (V) usando a fórmula: V = R * I</p>
+            <p>Resistência (R) em Ohms:</p>
+            <input type="number" id="resistance" placeholder="Digite R" />
+            <p>Corrente (I) em Amperes:</p>
+            <input type="number" id="current" placeholder="Digite I" />
+            <br />
+            <button onclick="calculateVoltage()">Calcular Tensão</button>
+            <div id="result"></div>
+        </div>
+    </div>
+    <div class="animation-container">
+        <div class="resistor">R = 10Ω</div>
+        <div class="current">I</div>
+        <div class="voltage">V = R * I = 10Ω * 2A = 20V</div>
+    </div>
+    <!-- VLibras Widget -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper></div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+    <script>
+        function calculateVoltage() {
+            var resistance = document.getElementById("resistance").value;
+            var current = document.getElementById("current").value;
+
+            if (resistance && current) {
+                var voltage = resistance * current;
+                document.getElementById("result").innerHTML = "A tensão (V) é: " + voltage + " Volts";
+            } else {
+                document.getElementById("result").innerHTML = "Por favor, insira os valores de resistência e corrente.";
+            }
+        }
+    </script>
+     <script>
+        // Aqui você pode alterar a resistência e a corrente
+        var resistance = 20; // em Ohms
+        var current = 4; // em Amperes
+
+        // Calcula a tensão
+        var voltage = resistance * current;
+
+        // Atualiza o texto da animação
+        document.querySelector('.resistor').innerHTML = 'R = ' + resistance + 'Ω';
+        document.querySelector('.voltage').innerHTML = 'V = R * I = ' + resistance + 'Ω * ' + current + 'A = ' + voltage + 'V';
+    </script>
+</body>
+</html>
+
