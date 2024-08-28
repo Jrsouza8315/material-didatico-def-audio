@@ -19,6 +19,30 @@
             color: #333;
             margin: 0;
             padding: 20px;
+             /* URL da imagem de fundo */
+             background-image: url('./assets/corrente-eletrica.gif');
+            
+            /* Faz a imagem cobrir toda a tela */
+            background-size: cover;
+            
+            /* Centraliza a imagem no centro da tela */
+            background-position: center;
+            
+            /* Mantém a imagem fixa ao rolar a página */
+            background-attachment: fixed;
+            
+            /* Evita repetição da imagem */
+            background-repeat: no-repeat;
+            
+            /* Define uma cor de fundo de fallback caso a imagem não carregue */
+            background-color: #f4f4f4;
+            
+            /* Define a cor do texto */
+            color: white;
+            
+            /* Define um espaçamento ao redor do conteúdo */
+            margin: 0;
+            padding: 20px;
         }
         .comic-container {
             display: flex;
@@ -52,7 +76,7 @@
             margin: 0;
             padding: 20px;
         }
-        .game-container {
+        .calculator-container {
             max-width: 600px;
             margin: 50px auto;
             padding: 20px;
@@ -61,10 +85,10 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
-        .game-container h1 {
+        .calculator-container h1 {
             margin-bottom: 20px;
         }
-        .game-container p {
+        .calculator-container p {
             font-size: 18px;
             margin-bottom: 10px;
         }
@@ -73,6 +97,11 @@
             margin: 10px 0;
             width: 100px;
             font-size: 16px;
+        }
+        select {
+            padding: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
         }
         button {
             padding: 10px 20px;
@@ -91,62 +120,7 @@
             margin-top: 20px;
             font-weight: bold;
         }
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            text-align: center;
-            margin: 0;
-            padding: 20px;
-        }
-        .animation-container {
-            margin-top: 50px;
-            position: relative;
-            width: 600px;
-            height: 300px;
-            margin-left: auto;
-            margin-right: auto;
-            border: 2px solid #000;
-            border-radius: 10px;
-            background-color: #fff;
-            overflow: hidden;
-        }
-        .resistor {
-            position: absolute;
-            top: 100px;
-            left: 250px;
-            width: 100px;
-            height: 30px;
-            background-color: #b5651d;
-            border: 3px solid #000;
-            text-align: center;
-            line-height: 30px;
-            color: #fff;
-            font-weight: bold;
-        }
-        .current {
-            position: absolute;
-            top: 140px;
-            left: -50px;
-            width: 50px;
-            height: 50px;
-            background-color: #3498db;
-            border-radius: 50%;
-            animation: moveCurrent 5s linear infinite;
-        }
-        @keyframes moveCurrent {
-            0% { left: -50px; }
-            100% { left: 550px; }
-        }
-        .voltage {
-            position: absolute;
-            top: 200px;
-            left: 0;
-            width: 100%;
-            font-size: 20px;
-            font-weight: bold;
-            color: #e74c3c;
-        }
+        
     </style>
 </head>
 <body>
@@ -162,33 +136,34 @@
         <div class="comic-panel">
             <img src="./assets/lei-de-ohm.png" alt="Lei de Ohm">
             <div class="comic-text">
+                "A 1ª lei de Ohm determina que a diferença de potencial entre dois pontos de um resistor é proporcional à corrente elétrica que é estabelecida nele. Além disso, de acordo com essa lei, a razão entre o potencial elétrico e a corrente elétrica é sempre constante para resistores ôhmicos."
+                <br/><br/>
                 A Lei de Ohm diz que V = R * I, onde V é a tensão, R é a resistência, e I é a corrente.
             </div>
         </div>
         <div class="comic-panel">
-            <img src="ohm_example.png" alt="Exemplo">
+            <img src="./assets/tumblr_ov9hqcHWRv1vy6znqo1_1280.jpg" alt="Exemplo">
             <div class="comic-text">
                 Se tivermos uma resistência de 2Ω e uma corrente de 3A, a tensão será 6V!
             </div>
         </div>
         <!-- Adicione mais painéis conforme necessário -->
-        <div class="game-container">
-            <h1>Jogo da Lei de Ohm</h1>
-            <p>Calcule a tensão (V) usando a fórmula: V = R * I</p>
-            <p>Resistência (R) em Ohms:</p>
-            <input type="number" id="resistance" placeholder="Digite R" />
-            <p>Corrente (I) em Amperes:</p>
-            <input type="number" id="current" placeholder="Digite I" />
-            <br />
-            <button onclick="calculateVoltage()">Calcular Tensão</button>
+        <div class="calculator-container">
+            <h1>Calculadora da Lei de Ohm</h1>
+            <p>Escolha a variável que deseja calcular:</p>
+            <select id="calculationType" onchange="updateForm()">
+                <option value="voltage">Tensão (V)</option>
+                <option value="current">Corrente (I)</option>
+                <option value="resistance">Resistência (R)</option>
+            </select>
+            <div id="inputs">
+                <!-- Inputs dinâmicos serão inseridos aqui -->
+            </div>
+            <button onclick="calculate()">Calcular</button>
             <div id="result"></div>
         </div>
     </div>
-    <div class="animation-container">
-        <div class="resistor">R = 10Ω</div>
-        <div class="current">I</div>
-        <div class="voltage">V = R * I = 10Ω * 2A = 20V</div>
-    </div>
+    
     <!-- VLibras Widget -->
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -199,30 +174,74 @@
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
     <script>
-        function calculateVoltage() {
-            var resistance = document.getElementById("resistance").value;
-            var current = document.getElementById("current").value;
+        function updateForm() {
+            const calculationType = document.getElementById('calculationType').value;
+            const inputsContainer = document.getElementById('inputs');
+            let inputsHtml = '';
 
-            if (resistance && current) {
-                var voltage = resistance * current;
-                document.getElementById("result").innerHTML = "A tensão (V) é: " + voltage + " Volts";
-            } else {
-                document.getElementById("result").innerHTML = "Por favor, insira os valores de resistência e corrente.";
+            if (calculationType === 'voltage') {
+                inputsHtml = `
+                    <p>Resistência (R) em Ohms:</p>
+                    <input type="number" id="resistance" placeholder="Digite R" />
+                    <p>Corrente (I) em Amperes:</p>
+                    <input type="number" id="current" placeholder="Digite I" />
+                `;
+            } else if (calculationType === 'current') {
+                inputsHtml = `
+                    <p>Tensão (V) em Volts:</p>
+                    <input type="number" id="voltage" placeholder="Digite V" />
+                    <p>Resistência (R) em Ohms:</p>
+                    <input type="number" id="resistance" placeholder="Digite R" />
+                `;
+            } else if (calculationType === 'resistance') {
+                inputsHtml = `
+                    <p>Tensão (V) em Volts:</p>
+                    <input type="number" id="voltage" placeholder="Digite V" />
+                    <p>Corrente (I) em Amperes:</p>
+                    <input type="number" id="current" placeholder="Digite I" />
+                `;
             }
+
+            inputsContainer.innerHTML = inputsHtml;
         }
-    </script>
-     <script>
-        // Aqui você pode alterar a resistência e a corrente
-        var resistance = 20; // em Ohms
-        var current = 4; // em Amperes
 
-        // Calcula a tensão
-        var voltage = resistance * current;
+        function calculate() {
+            const calculationType = document.getElementById('calculationType').value;
+            let result = '';
 
-        // Atualiza o texto da animação
-        document.querySelector('.resistor').innerHTML = 'R = ' + resistance + 'Ω';
-        document.querySelector('.voltage').innerHTML = 'V = R * I = ' + resistance + 'Ω * ' + current + 'A = ' + voltage + 'V';
+            if (calculationType === 'voltage') {
+                const resistance = parseFloat(document.getElementById('resistance').value);
+                const current = parseFloat(document.getElementById('current').value);
+                if (!isNaN(resistance) && !isNaN(current)) {
+                    result = `A tensão (V) é: ${resistance * current} Volts`;
+                } else {
+                    result = 'Por favor, insira valores válidos para resistência e corrente.';
+                }
+            } else if (calculationType === 'current') {
+                const voltage = parseFloat(document.getElementById('voltage').value);
+                const resistance = parseFloat(document.getElementById('resistance').value);
+                if (!isNaN(voltage) && !isNaN(resistance)) {
+                    result = `A corrente (I) é: ${voltage / resistance} Amperes`;
+                } else {
+                    result = 'Por favor, insira valores válidos para tensão e resistência.';
+                }
+            } else if (calculationType === 'resistance') {
+                const voltage = parseFloat(document.getElementById('voltage').value);
+                const current = parseFloat(document.getElementById('current').value);
+                if (!isNaN(voltage) && !isNaN(current)) {
+                    result = `A resistência (R) é: ${voltage / current} Ohms`;
+                } else {
+                    result = 'Por favor, insira valores válidos para tensão e corrente.';
+                }
+            }
+
+            document.getElementById('result').innerHTML = result;
+        }
+
+        // Inicializa o formulário com os inputs para calcular a tensão
+        updateForm();
     </script>
+    
 </body>
 </html>
 
